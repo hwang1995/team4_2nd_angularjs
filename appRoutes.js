@@ -13,12 +13,7 @@ angular
       .when("/admin/member/modify", {templateUrl : "views/member/modify.html", controller : "memberController"})
       .when("/admin/member/:member_id", {templateUrl : "views/member/detail.html", controller : "memberController"})
       .when("/admin/order", {templateUrl : "views/order/order.html", controller : "orderController"})
-      .when("/admin/order/:order_id", {templateUrl : "views/order/detail.html", controller : "orderController"})
-      .when("/admin/order/modify", {templateUrl : "views/order/modify.html", controller : "orderController"})
-      .when("/admin/qna", {templateUrl : "views/qna/qna.html", controller : "qnaController"})
-      .when("/admin/qna/add", {templateUrl : "views/qna/add.html", controller : "qnaController"})
-      .when("/admin/qna/modify", {templateUrl : "views/qna/modify.html", controller : "qnaController"})
-      .when("/admin/qna/:qna_id", {templateUrl : "views/qna/detail.html", controller : "qnaController"})
+      .when("/admin/qna/index", {templateUrl : "views/qna/index.html", controller : "qnaController"})
       .when("/register", {templateUrl : "views/auth/register.html"})
       .otherwise({redirectTo : "/"})
       ;
