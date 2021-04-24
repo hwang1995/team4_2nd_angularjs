@@ -1,13 +1,84 @@
-<link rel="stylesheet" href="../../assets/css/layout/sidebarLayout.css">
-<div class="d-flex">
-  <ng-include src="'views/dashboard/sider.html'"></ng-include>
+<div class="body">
+  <h1 class="fw-9 mt-3">주문 상세 정보</h1>
+  <hr class="divider mb-2">
+    <div>
+      <h3 class="fw-5 mt-2">주문 정보</h3>
 
-  <section class="p-3 w-100">
-    <!-- 여기에 내용을 입력하세요. -->
-    <h1 class="fw-9 mt-3 ">주문 상세 정보</h1>
+      <div class="bold_divider d-flex ps-4 pt-1 pb-1 mt-2" ng-value="order">
+        <div class="row">
+          <div>- 주문번호 : {{order.order_id}}</div>
+          <div>- 주문자 : {{member.member_name}}</div>
+        </div>
+        <div>
+          <div>- 주문날짜 : {{order.order_date | date:"yyyy.MM.dd"}}</div>
+          <div>- 결제상태 : {{order.order_payment_status}}</div>
+          <div>- 주문 : {{order.order_payment_status}}</div>
+        </div>
+          
+      </div>
+    </div>
+
+    <div>
+      <h3 class="fw-5 mt-5">주문 상품</h3>
+      <table class="table table-striped table-bordered text-center bold_divider mt-2">
+        <thead>
+          <tr>
+            <th scope="col">상품번호</th>
+            <th scope="col">상품명</th>
+            <th scope="col">상품가격</th>
+            <th scope="col">색상</th>
+            <th scope="col">사이즈</th>
+            <th scope="col">수량</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="product in products">
+            <td scope="row">{{product.product_id}}</td>
+            <td scope="row">{{product.product_name}}</td>
+            <td scope="row">{{product.product_price}}</td>
+            <td scope="row">{{product.product_color}}</td>
+            <td scope="row">{{product.product_size}}</td>
+            <td scope="row">{{product.product_quantity}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <h5 class="fw-5">총 가격 {{totalPrice}} 원</h5>
+    </div>
+   
+    <div>
+      <div class="row justify-content-between mt-5">
+        <div class="col-5">
+          <h3 class="fw-5">배송 정보</h3>
+        </div>
+        <div class="col-1">
+          <button class="btn btn-success btn-sm" style="width: max-content; height: max-content;" ng-click="modifyForm()">수정</button>
+        </div>
+      </div>
+      <div class="bold_divider  ps-4 pt-1 pb-1 mt-2">
+        <div class="row">
+          <div class="col-2">수취인</div>
+          <div class="col-4">{{order.recipient_name}}</div>
+        </div>
+        <div class="row">
+          <div class="col-2">연락처</div>
+          <div class="col-4">{{order.recipient_tel}}</div>
+        </div>
+        <div class="row">
+          <div class="col-2">주소</div>
+          <div class="col-4">{{order.recipient_address}}</div>
+        </div>
+        <div class="row">
+          <div class="col-2">배송상태</div>
+          <div class="col-4">{{order.order_delivery_status}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+      <button class="btn btn-primary btn-sm" style="width: 100px;" ng-click="getList(pager.pageNo)">뒤로가기</button>
+    </div>
     
-    
-
-
-  </section>
 </div>
