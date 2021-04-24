@@ -15,10 +15,12 @@ angular
       .when("/admin/order", {templateUrl : "views/order/order.html", controller : "orderController"})
       .when("/admin/order/:order_id", {templateUrl : "views/order/detail.html", controller : "orderController"})
       .when("/admin/order/modify", {templateUrl : "views/order/modify.html", controller : "orderController"})
-      .when("/admin/qna", {templateUrl : "views/qna/qna.html", controller : "qnaController"})
-      .when("/admin/qna/add", {templateUrl : "views/qna/add.html", controller : "qnaController"})
-      .when("/admin/qna/modify", {templateUrl : "views/qna/modify.html", controller : "qnaController"})
-      .when("/admin/qna/:qna_id", {templateUrl : "views/qna/detail.html", controller : "qnaController"})
+      //.when("/admin/qna", {templateUrl : "views/qna/qna.html", controller : "qnaController"})
+      //.when("/admin/qna/add", {templateUrl : "views/qna/add.html", controller : "qnaController"})
+      //.when("/admin/qna/modify", {templateUrl : "views/qna/modify.html", controller : "qnaController"})
+      //.when("/admin/qna/:qna_id", {templateUrl : "views/qna/detail.html", controller : "qnaController"})
+
+      .when("/admin/qna/index", {templateUrl : "views/qna/index.html", controller : "qnaController"})
       .otherwise({redirectTo : "/"})
       ;
   })
