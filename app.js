@@ -36,10 +36,92 @@ angular
           $window.alert("로그인에 실패하였습니다.");
           console.log(response);
         });
-    }
+    };
     $scope.reloadable = (path) => {
       if($location.url().includes(path)){
         $route.reload();
       }
-    }
+    };
+    $scope.registerForm = () => {
+      $location.url("/register");
+    };
+    $scope.existed_email = (user) => {
+      console.log(user.member_email+" ddd");
+        authService
+        .existed_email(user)
+        .then((response) => {
+          if(response.data) {
+            $("#errorUemail").attr("class", "text-danger");
+            $("#errorUemail").html("이미 존재하는 이메일 입니다.");
+          }else {
+            $("#errorUemail").attr("class", "text-success");
+            $("#errorUemail").html("사용 가능한 이메일 입니다.");
+          }
+        });
+    };
+    $scope.register = (user) => {
+
+      const emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      const telRegExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+      const passwordRegExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/; //  8 ~ 10자 영문, 숫자 조합
+
+      const emailElem = $("#emailInput").val();
+      const nameElem = $("#nameInput").val();
+      const passwordElem = $("#passwordInput").val();
+      const telElem = $("#telInput").val();
+      const addressElem = $("#adressInput").val();
+      const ageAgreement = $("#ageAgreement").prop("checked");
+      const adminAgreement = $("#adminAgreement").prop("checked");
+      const agreement = $("#agreement").prop("checked");
+
+      console.log(ageAgreement);
+      
+      if(!emailElem){
+        alert("이메일을 입력해주세요.");
+        return;
+      } else if(!emailRegExp.test(emailElem)){
+        alert("이메일 형식이 올바르지 않습니다.");
+        return;
+      }
+      if(!passwordElem){
+        alert("비밀번호를 입력해주세요.");
+        return;	
+      } else if(!passwordRegExp.test(passwordElem)){
+        alert("비밀번호 형식이 올바르지 않습니다.");
+        return;
+      }
+      if(!nameElem){
+        alert("이름을 입력해주세요.");
+        return;
+      }
+      if(!telElem){
+        alert("전화번호를 입력해주세요.");
+        return;
+      } else if(!telRegExp.test(telElem)){
+        alert("전화번호 형식이 올바르지 않습니다.");
+        return;
+      }
+      if(!addressElem){
+        alert("주소를 입력해주세요.");
+        return;
+      }
+      if(!(ageAgreement && adminAgreement && agreement)) {
+        alert("약관에 동의해주세요.");
+        return;
+      }
+      authService
+      .existed_email(user)
+      .then((response) => {
+        if(response.data) {
+          alert("이미 존재하는 이메일입니다.");
+          return;
+        }else {
+          authService
+          .register(user)
+          .then((response) => {
+            $location.url("/");
+          });
+        }
+      });
+    };
   });

@@ -19,6 +19,7 @@ angular
       .when("/admin/qna/add", {templateUrl : "views/qna/add.html", controller : "qnaController"})
       .when("/admin/qna/modify", {templateUrl : "views/qna/modify.html", controller : "qnaController"})
       .when("/admin/qna/:qna_id", {templateUrl : "views/qna/detail.html", controller : "qnaController"})
+      .when("/register", {templateUrl : "views/auth/register.html"})
       .otherwise({redirectTo : "/"})
       ;
   })
