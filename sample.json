@@ -1,0 +1,13 @@
+{
+  "products" : {
+    "product_id" : 1006,
+    "product_name" : "Test Product",
+    "product_price" : 9999999,
+    "product_image" : "/main/0beb9a49-b176-4527-8a66-4c00f6fd5529.jpg",
+    "product_content" : "GOOD BAD DAB DOOG",
+    "product_subcontent" : "tnetnocbus_tcudorp",
+    "subcategory_id" : 7
+  },
+  "colors" : ["White", "Grey"],
+  "sizes" : ["S", "M", "L"]
+}

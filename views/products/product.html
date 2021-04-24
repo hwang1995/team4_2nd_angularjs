@@ -3,9 +3,34 @@
   <ng-include src="'views/dashboard/sider.html'"></ng-include>
 
   <section class="p-3 w-100">
-    <!-- 여기에 내용을 입력하세요. -->
+   
     <h1 class="fw-9 mt-3 ">상품 목록</h1>
-    <hr class="divider mb-2">
+   
+    <hr class="divider mb-3">
+    <div class="row mb-2">
+      <div class="col-sm-12 col-md-6">
+        <h3 class="fw-9 engFont mb-3">Category</h3>
+        <select 
+        class="form-select m-1" 
+        ng-model="selected"
+        ng-change="changeCategories(selected)">
+        <option value="all" ng-model="categoryName">ALL</option>
+        <option ng-repeat="(key, value) in category" ng-model="categoryName" >{{key}}</option>
+       </select>
+  
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <h3 class="fw-9 engFont mb-3">Subcategory</h3>
+        <select 
+        class="form-select m-1" 
+        ng-model="subcategory_id"
+        ng-change="changeSubcategory(subcategory_id)">
+        <option  ng-repeat="subcat in subcategories" ng-value="subcat.subcategory_id">{{subcat.subcategory_name}}</option>
+      </select>
+
+      </div>
+    </div>
+    <hr class="divider mb-3">
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
@@ -17,17 +42,26 @@
 
         </thead>
         <tbody>
-          <tr ng-repeat="product in products">
-            <td scope="row">{{product.product_id}}</td>
-            <td scope="row">{{product.product_name}}</td>
-            <td scope="row">{{product.product_price}}</td>
-            <td scope="row">{{product.subcategory_id}}</td>
+          <tr ng-repeat="product in products" >
+            <td scope="row" >
+              <span class="fw-3">{{product.product_id}}</span>
+            </td>
+            <td scope="row" ng-click="goReadPage(product.product_id)" >
+              <span class="fw-3">{{product.product_name}}</span>
+            </td>
+            <td scope="row">
+              <span class="fw-3">{{product.product_price | number}} 원</span>
+            </td>
+            <td scope="row">
+              <span class="fw-3">{{showCategory(product.subcategory_id)}}</span>
+              
+            </td>
           </tr>
 
         </tbody>
  
       </table>
-      <div class="d-flex justify-content-center" ng-show="!subcategory_id">
+      <div class="d-flex justify-content-center">
         <nav >
           <ul class="pagination justify-content-center" >
             <li class="page-item">
@@ -48,30 +82,15 @@
          
           </ul>
         </nav>
-        </div>
+      </div>
+
+      
+     
+
+    
        
       </div>
-      <div class="d-flex justify-content-center" ng-show="subcategory_id">
-        <nav >
-          <ul class="pagination justify-content-center" >
-            <li class="page-item">
-              <a class="page-link" ng-click="getList(1, subcategory_id)">처음</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" ng-show="pager.groupNo>1" ng-click="getList(pager.startPageNo-1, subcategory_id)">이전</a>
-            </li>
-            <li class="page-item {{(pager.pageNo==i)?'active':''}} {{!$last?'mr-1':''}}" ng-repeat="i in pageRange">
-              <a class="page-link"  ng-click="getList(i)" >{{i}}</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" ng-show="pager.groupNo < pager.totalGroupNo" ng-click="getList(pager.endPageNo+1,subcategory_id)">다음</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" ng-click="getList(pager.totalPageNo, subcategory_id)">맨끝</a>
-            </li>
-         
-          </ul>
-        </nav>
+
 
     
 
