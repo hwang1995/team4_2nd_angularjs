@@ -28,7 +28,7 @@
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/#!/admin/order" class="link-dark rounded fw-7">주문 목록</a></li>
+              <li><a href="/#!/admin/order" class="link-dark rounded fw-7" ng-click="reloadable('admin/order')">주문 목록</a></li>
     
             </ul>
           </div>
@@ -39,7 +39,7 @@
           </button>
           <div class="collapse" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/#!/admin/member" class="link-dark rounded fw-7">회원 목록</a></li>
+              <li><a href="/#!/admin/member" class="link-dark rounded fw-7" ng-click="reloadable('admin/member')">회원 목록</a></li>
     
             </ul>
           </div>
@@ -50,7 +50,6 @@
           </button>
           <div class="collapse" id="qna-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/#!/admin/qna/add" class="link-dark rounded fw-7">Q&A 등록</a></li>
               <li><a href="/#!/admin/qna/index" class="link-dark rounded fw-7" ng-click="reloadable('admin/qna/index')">Q&A 목록</a></li>
     
             </ul>
