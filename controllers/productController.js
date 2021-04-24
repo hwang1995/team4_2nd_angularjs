@@ -168,42 +168,38 @@ angular
 
                 productService
                   .postProducts(sendData)
-                  .then((response) => {
-                    Array
-                      .from(carouselImageEl)
-                      .forEach(async (item) => {
-                        const base64Data = await toBase64(item);
-                        let data = {
-                          "type" : "carousel",
-                          "filename" : getUUID() + ".jpg",
-                          "product_id" : product_id,
-                          "base64" : base64Data
-                        };
-                        productService
-                          .uploadImages(data)
-                          .then((response) => {
-                            console.log(response);
-                          })
-                      });
-                    
-                      Array
-                        .from(detailImageEl)
-                        .forEach(async (item) => {
-                          const base64Data = await toBase64(item);
-                          let data = {
-                            "type" : "detail",
-                            "filename" : getUUID() + ".jpg",
-                            "product_id" : product_id,
-                            "base64" : base64Data
-                          };
-                          productService
-                            .uploadImages(data)
-                            .then((response) => {
-                              console.log(response);
-                            })
+                  .then(async (response) => {
+                    for(let file of carouselImageEl){
+                      const base64Data = await toBase64(file);
+                      let data = { 
+                        "type" : "carousel",
+                        "filename" : getUUID() + ".jpg",
+                        "product_id" : product_id,
+                        "base64" : base64Data
+                      };
+                      await productService
+                        .uploadImages(data)
+                        .then((response) => {
+                          console.log(response);
                         })
-                  
+                    }
+                  })
+                  .then(async (response) => {
+                    for(let file of detailImageEl){
+                      const base64Data = await toBase64(file);
+                      let data = {
+                        "type" : "detail",
+                        "filename" : getUUID() + ".jpg",
+                        "product_id" : product_id,
+                        "base64" : base64Data
+                      };
+                      await productService
+                        .uploadImages(data)
+                        .then((response) => {
+                          console.log(response);
+                        })
 
+                    }
                   })
                   .then((response) => {
                     alert("성공적으로 업로드 되었습니다. 상품 상세 페이지로 이동합니다.");

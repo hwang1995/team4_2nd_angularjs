@@ -98,34 +98,3 @@ Array
 });
 
 
-
-List<ProductImgsDTO> result = new ArrayList<ProductImgsDTO>();
-		
-		
-		String filePath = System.getProperty("user.home") + "/images";
-		Arrays.asList(uploadFiles).stream().forEach(uploadFile -> {
-			ProductImgsDTO productImgInfo = new ProductImgsDTO();
-			String categoryFolder = "/" + type + "/";
-			String uuid= UUID.randomUUID().toString();
-			
-			try {
-				String[] fileFragments = uploadFile.getOriginalFilename().split("\\.");
-				String ext = fileFragments[fileFragments.length - 1];
-				String returnFile = categoryFolder + uuid + "." + ext;
-				File file = new File(filePath + categoryFolder + uuid + "." + ext);
-				uploadFile.transferTo(file);
-				
-				productImgInfo.setProduct_id(product_id);
-				productImgInfo.setProduct_img_type(uploadFile.getContentType());
-				productImgInfo.setProduct_img_name(returnFile);
-				productImgInfo.setProduct_img_category(type);
-				
-				
-				productImgsDAO.insertProductImg(productImgInfo);
-				logger.info(productImgInfo.toString());
-				result.add(productImgInfo);
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		});
