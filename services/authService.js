@@ -7,6 +7,14 @@ angular
       login : function(user) {
         const promise = $http.post(BASE_URL + "/login", user);
         return promise;
+      },
+      register : function(user) {
+        const promise = $http.post(BASE_URL + "/register", user);
+        return promise;
+      },
+      existed_email : function(user) {
+        const promise = $http.post(BASE_URL + "/existed-email", user);
+        return promise;
       }
     }
   });
