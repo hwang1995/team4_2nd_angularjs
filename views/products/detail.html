@@ -4,10 +4,118 @@
 
   <section class="p-3 w-100">
     <!-- 여기에 내용을 입력하세요. -->
-    <h1 class="fw-9 mt-3 ">상품 상세 정보</h1>
-    
-    
+    <h1 class="fw-9 mt-3 mb-4">상품 상세 정보</h1>
+    <hr class="divider mb-3">
+    <div class="row">
+      <div class="col-xs-12 col-md-4" >
+        <span class="fw-7 m-3 ">품번</span>
+        <span class="fw-7">{{productInfo.product_id}}</span>
+        
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <span class="fw-7 m-3">이름</span>
+        <span class="fw-7 engFont">{{productInfo.product_name}}</span>
+        </div>
+      <div class="col-xs-12 col-md-4">
+        <span class="fw-7 m-3">가격</span>
+        <span class="fw-7">{{productInfo.product_price | number}} 원</span>
+        </div>
+    </div>
+    <hr class="divider mb-3">
+    <div class="row">
+      <div class="col-xs-12 col-md-4">
+        <span class="fw-7 m-3">사이즈</span>
+        <span class="fw-7 engFont" ng-repeat="size in productInfo.product_sizes_list" ng-if="!$last">
+          {{size.size_name}},
+        </span>
+        <span class="fw-7 engFont" ng-repeat="size in productInfo.product_sizes_list" ng-if="$last">
+          {{size.size_name}}
+        </span>
+        
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <span class="fw-7 m-3">색상</span>
+        <span class="fw-7 engFont" ng-repeat="color in productInfo.product_colors_list" ng-if="!$last">
+          {{color.color_name}},
+        </span>
+        <span class="fw-7 engFont" ng-repeat="color in productInfo.product_colors_list" ng-if="$last">
+          {{color.color_name}}
+        </span>
+        </div>
+   
+    </div>
 
+    <hr class="divider mb-3">
+    <div class="row">
+      <div class="col-xs-12 col-md-4 m-md-2">
+        <h5 class="fw-7 mb-3">주요 설명</h5>
+        <p class="fw-3" ng-repeat="content in productContents">{{content}} </p>
+      </div>
+      <div class="col-xs-12 col-md-4 m-md-1 mt-3">
+        <h5 class="fw-7 mb-3">부가 설명</h5>
+        <p class="fw-3" ng-repeat="content in productSubContents">{{content}} </p>
+      </div>
+    </div>
+    <hr class="divider mb-3">
+    <div class="row" >
+      <div class="col-xs-12 col-md-4 ">
+        <h5 class="fw-7 mb-3">메인 이미지</h5>
+        <img src="{{getImagePath(productInfo.product_image)}}" alt="" width="100%" >
+      </div>
+      <div class="col-xs-12 col-md-4 ">
+        <h5 class="fw-7 mb-3">캐러셀 이미지 </h5>
+        
+        </h5>
+        <div id="carouselImage" class="carousel slide">
+          <div class="carousel-inner">
+            <div class="carousel-item active" ng-repeat="image in productInfo.product_imgs_carousel_list" ng-if="$first" >
+              <img ng-src={{getImagePath(image.product_img_name)}} class="d-block w-100" alt="{{image.product_img_id}}">
+            </div>
+    
+            <div class="carousel-item" ng-repeat="image in productInfo.product_imgs_carousel_list" ng-if="!$first" >
+              <img ng-src={{getImagePath(image.product_img_name)}} class="d-block w-100" alt="{{image.product_img_id}}">
+            </div>
+
+          </div>
+       </div>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <h5 class="fw-7 mb-3">상세 이미지</h5>
+        <div id="detailImage" class="carousel slide">
+          <div class="carousel-inner">
+            <div class="carousel-item active" ng-repeat="image in productInfo.product_imgs_detail_list" ng-if="$first" >
+              <img ng-src={{getImagePath(image.product_img_name)}} class="d-block w-100" alt="{{image.product_img_id}}">
+            </div>
+    
+            <div class="carousel-item" ng-repeat="image in productInfo.product_imgs_detail_list" ng-if="!$first" >
+              <img ng-src={{getImagePath(image.product_img_name)}} class="d-block w-100" alt="{{image.product_img_id}}">
+            </div>
+            
+          </div>
+       </div>
+      </div>
+
+
+     
+    </div>
+  
 
   </section>
 </div>
+
+
+<script>
+$(document).ready(() => {
+  let carouselImage = document.querySelector('#carouselImage');
+  let carousel = new bootstrap.Carousel(carouselImage, {
+    interval : 2000,
+    ride : true
+  });
+  let detailImage = document.querySelector('#detailImage');
+  let detailCarousel = new bootstrap.Carousel(detailImage, {
+    interval : 2000,
+    ride : true
+  })
+})
+
+</script>

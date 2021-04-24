@@ -8,7 +8,6 @@ angular
         let sendURL = "";
         if(pageNo && !subcategoryId){
           sendURL = `${BASE_URL}?pageNo=${pageNo}`;
-          console.log(pageNo);
         } else if(!pageNo && subcategoryId){
           sendURL = `${BASE_URL}?subcategoryId=${subcategoryId}`;
         } else {
@@ -18,6 +17,21 @@ angular
       },
       getProductDetails : function(productId) {
         return $http.get(BASE_URL + "/" + productId);
+      },
+      getCategoryList : function () {
+        return $http.get(BASE_URL + "/categories");
+      },
+      uploadMainImage : function (formData) {
+        return $http.post(`${BASE_URL}/upload/main`, formData, {headers : {"Content-Type" : undefined}});
+      },
+      uploadImages : function (data) {
+        return $http.post(`${BASE_URL}/upload`, data);
+      },
+      getSequence : function () {
+        return $http.get(`${BASE_URL}/sequence`);
+      },
+      postProducts : function(data) {
+        return $http.post(BASE_URL, data);
       }
     }
 
