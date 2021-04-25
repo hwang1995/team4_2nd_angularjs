@@ -124,4 +124,10 @@ angular
         }
       });
     };
-  });
+    $scope.logout = () => {
+      $rootScope.email = "";
+      $rootScope.authToken = "";
+      sessionStorage.removeItem("email");
+      sessionStorage.removeItem("authToken");
+    };
+    });
