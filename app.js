@@ -11,17 +11,13 @@ angular
 
     });
 
-   
-
-
-
-
-
   }])
   .run(function($rootScope, $http) {
     // sessionStorage에 email, authToken이 있는지 확인
     $rootScope.email = sessionStorage.getItem("email");
     $rootScope.authToken = sessionStorage.getItem("authToken");
+  
+
 
     // $rootScope.authToken의 값이 변경될 떄에 헤더를 넣을지 안넣을지 확인
     $rootScope.$watch("authToken", (newValue) => {
@@ -44,6 +40,22 @@ angular
     }
   })
   .controller("mainController", function($scope, $location, $route, authService, $window, $rootScope, $location, $timeout) {
+
+    $scope.$on("$routeChangeSuccess", function () {
+      if($location.url() === "" || $location.url() === "/" || $location.url() === "/register") {
+        console.log("정상적인 경로");
+        console.log($rootScope.authToken);
+      } else {
+        if($rootScope.authToken === null) {
+          alert("비정상적인 경로로 접근하셨습니다. 로그인 페이지로 이동합니다.")
+          $location.url("/");
+        }
+      }
+  
+    })
+
+
+
     // 로그인 처리
     $scope.login = (user) => {
       authService
