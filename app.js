@@ -17,6 +17,14 @@ angular
 
     });
   })
+  .filter('trim', function () {
+    return function(value) {
+      if(!angular.isString(value)){
+        return value;
+      }
+      return value.replace(/^\s+|\s+$/g, '')
+    }
+  })
   .controller("mainController", function($scope, $location, $route, authService, $window, $rootScope, $location) {
     // 로그인 처리
     $scope.login = (user) => {

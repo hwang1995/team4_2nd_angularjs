@@ -6,7 +6,7 @@ angular
       .when("/admin", {templateUrl : "views/dashboard/index.html"})
       .when("/admin/product", {templateUrl : "views/products/product.html", controller : "productController"})
       .when("/admin/product/add", {templateUrl : "views/products/add.html", controller : "productController"})
-      .when("/admin/product/modify", {templateUrl : "views/products/modify.html", controller : "productController"})
+      .when("/admin/product/modify/", {templateUrl : "views/products/modify.html", controller : "productController"})
       .when("/admin/product/:product_id", {templateUrl : "views/products/detail.html", controller : "productController"})
       .when("/admin/member", {templateUrl : "views/member/member.html", controller : "memberController"})
       .when("/admin/member/add", {templateUrl : "views/member/add.html", controller : "memberController"})

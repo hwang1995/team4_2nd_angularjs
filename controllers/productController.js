@@ -1,6 +1,6 @@
 angular
   .module("app")
-  .controller("productController", function($scope, $rootScope, productService, $location, $routeParams, $q){
+  .controller("productController", function($scope, $rootScope, productService, $location, $routeParams){
     $scope.$on("$routeChangeSuccess", function() {
      
       if($location.path() == "/admin/product/add"){
@@ -20,6 +20,7 @@ angular
         .getProductDetails($routeParams.product_id)
         .then((response) => {
           $scope.productInfo = response.data;
+          console.log($scope.productInfo)
           $scope.productContents = response.data.product_content.split("\\n\n");
           $scope.productSubContents = response.data.product_subcontent.split("\\n\n");
         })
@@ -35,6 +36,10 @@ angular
     $scope.goReadPage = (product_id) => {
       const pathLocation = $location.path() + "/" + product_id;
       $location.path(pathLocation)
+    }
+
+    $scope.goProductPage = () => {
+      $location.path("/admin/product")
     }
     $scope.showCategory = (categoryId) => {
       $scope.categoryList = [
@@ -139,124 +144,61 @@ angular
             // 1차적으로 메인 이미지를 업로드하고, 주소를 얻어온다.
              let formData = new FormData();
              formData.append("uploadFile", mainImageEl[0]);
+             try {
+              let product_image = await productService.uploadMainImage(formData);
+              let product_id = await productService.getSequence();
 
-             let uploadImage = productService.uploadMainImage(formData);
-             let getSequence = productService.getSequence();
+              let sendData = {
+                "products" : {
+                  product_id,
+                  "product_name" : item.product_name,
+                  "product_price" : item.product_price,
+                  "product_content" : item.content.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
+                  "product_subcontent" : item.subcontent.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
+                  product_image,
+                  "subcategory_id" : $scope.subcategory_id
+                },
+                "sizes" : item.sizes.split(","),
+                "colors" : item.colors.split(",")
+              }
 
-             Promise
-              .all([uploadImage, getSequence])
-              .then((response) => {
-                // 받아온 상품 이미지, 상품 번호를 세팅
-                const product_image = response[0].data.product_image;
-                const product_id = response[1].data.product_id;
-                console.log("PROMISE STEP 1 ", product_id, product_image);
+              await productService.postProducts(sendData);
 
-                // 상품을 보낼 데이터를 세팅
-                let sendData = {
-                  "products" : {
-                    product_id,
-                    "product_name" : item.product_name,
-                    "product_price" : item.product_price,
-                    "product_content" : item.content.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
-                    "product_subcontent" : item.subcontent.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
-                    product_image,
-                    "subcategory_id" : $scope.subcategory_id
-                  },
-                  "sizes" : item.sizes.split(","),
-                  "colors" : item.colors.split(",")
+              for(let file of carouselImageEl){
+                const base64Data = await toBase64(file);
+                let data = {
+                  "type" : "carousel",
+                  "filename" : getUUID() + ".jpg",
+                  "product_id" : product_id,
+                  "base64" : base64Data
                 };
+                await productService.uploadImages(data);
+              }
 
-                productService
-                  .postProducts(sendData)
-                  .then(async (response) => {
-                    for(let file of carouselImageEl){
-                      const base64Data = await toBase64(file);
-                      let data = { 
-                        "type" : "carousel",
-                        "filename" : getUUID() + ".jpg",
-                        "product_id" : product_id,
-                        "base64" : base64Data
-                      };
-                      await productService
-                        .uploadImages(data)
-                        .then((response) => {
-                          console.log(response);
-                        })
-                    }
-                  })
-                  .then(async (response) => {
-                    for(let file of detailImageEl){
-                      const base64Data = await toBase64(file);
-                      let data = {
-                        "type" : "detail",
-                        "filename" : getUUID() + ".jpg",
-                        "product_id" : product_id,
-                        "base64" : base64Data
-                      };
-                      await productService
-                        .uploadImages(data)
-                        .then((response) => {
-                          console.log(response);
-                        })
+              for(let file of detailImageEl) {
+                const base64Data = await toBase64(file);
+                let data = {
+                  "type" : "detail",
+                  "filename" : getUUID() + ".jpg",
+                  "product_id" : product_id,
+                  "base64" : base64Data
+                };
+                await productService.uploadImages(data);
+              }
 
-                    }
-                  })
-                  .then((response) => {
-                    alert("성공적으로 업로드 되었습니다. 상품 상세 페이지로 이동합니다.");
-                    $location.url("/admin/product/" + product_id);
-                  });
-              })
+              alert("성공적으로 업로드 되었습니다. 상품 상세 페이지로 이동합니다.");
+              $location.url("/admin/product/" + product_id);
+             } catch (error) {
+               console.log(error);
+             }
 
-             
              
         } else {
           alert("item이 없나요?")
         }
 
       };
-      // 삭제 예정
-      $scope.testMember = (item) => {
-        const INSERT_ENTER_SYMBOL ="\\n\n";
-        const ENTER_SYMBOL = /\n/;
-
-        let stringifyContent = item.content.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL);
-        let stringifySubContent = item.subcontent.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL);
-        let products = {
-          "product_id" : 1004,
-          "product_name" : item.product_name,
-          "product_price" : item.product_price,
-          "product_content" : stringifyContent,
-          "product_subcontent" : stringifySubContent,
-          "subcategory_id" : $scope.subcategory_id,
-          "product_image" : "/main/0beb9a49-b176-4527-8a66-4c00f6fd5529.jpg"
-        }
-
-        let colors = item.colors.split(',');
-        let sizes = item.sizes.split(',');
-
-        let sendData = {
-          products, colors, sizes
-        }
-
-        productService
-        .postProducts(sendData)
-        .then((response) => {
-          console.log(response);
-        })
-        
-        console.log(sendData)
-      }
-
-      $scope.testSeq = () => {
-        productService
-          .getSequence()
-          .then((response) => {
-            product_id = response.data.product_id;
-          })
-          .then((data) => {
-            console.log("SECOND PROMISE", product_id);
-          })
-      };
+    
 
       // Image Function
       const toBase64 = (file) => new Promise((resolve, reject) => {
@@ -273,31 +215,7 @@ angular
           var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 3 | 8);
           return v.toString(16);
         });
-      }
-
-      $scope.testUpload = async () => {
-        let carouselImageEl = document.querySelector("#carouselImage").files;
-        Array
-          .from(carouselImageEl)
-          .forEach(async (item) => {
-            const base64Data = await toBase64(item);
-            let data = {
-              "type" : "carousel",
-              "filename" : getUUID() + ".jpg",
-              "base64" : base64Data
-            };
-            productService
-              .uploadImages(data)
-              .then((response) => {
-                console.log(response);
-              });
-          });
-
-
-
-        
-      }
-
+      };
 
 
     }
