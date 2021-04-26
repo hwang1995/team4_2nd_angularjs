@@ -45,20 +45,6 @@ angular
     $scope.registerForm = () => {
       $location.url("/register");
     };
-    $scope.existed_email = (user) => {
-      console.log(user.member_email+" ddd");
-        authService
-        .existed_email(user)
-        .then((response) => {
-          if(response.data) {
-            $("#errorUemail").attr("class", "text-danger");
-            $("#errorUemail").html("이미 존재하는 이메일 입니다.");
-          }else {
-            $("#errorUemail").attr("class", "text-success");
-            $("#errorUemail").html("사용 가능한 이메일 입니다.");
-          }
-        });
-    };
     $scope.register = (user) => {
 
       const emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -75,7 +61,6 @@ angular
       const agreement = $("#agreement").prop("checked");
 
       console.log(ageAgreement);
-      
       if(!emailElem){
         alert("이메일을 입력해주세요.");
         return;
@@ -124,4 +109,10 @@ angular
         }
       });
     };
-  });
+    $scope.logout = () => {
+      $rootScope.email = "";
+      $rootScope.authToken = "";
+      sessionStorage.removeItem("email");
+      sessionStorage.removeItem("authToken");
+    };
+    });
