@@ -1,6 +1,6 @@
 angular
   .module("app")
-  .controller("productController", function($scope, $rootScope, productService, $location, $routeParams){
+  .controller("productController", function($scope, $rootScope, productService, $location, $routeParams, $route, $window){
     $scope.$on("$routeChangeSuccess", function() {
      
       if($location.path() == "/admin/product/add"){
@@ -217,6 +217,64 @@ angular
         });
       };
 
+      $scope.modifyProducts = async () => {
+        const INSERT_ENTER_SYMBOL ="\\n\n";
+        const ENTER_SYMBOL = /\n/;
+        let product_name = $('#product_name').val();
+        let product_price = $('#product_price').val();
+        let product_content = $('#contentTextarea').val().replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL);
+        let product_subcontent = $('#subTextarea').val().replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL);
+        let mainImage= document.querySelector("#mainImage").files[0];
+
+        let isUploadWithImage = product_name && product_price && product_content && product_subcontent && mainImage;
+        let isUploadOnlyContent = product_name && product_price && product_content && product_subcontent;
+        // 이미지가 존재하지 않고 내용만 수정한다면?
+        if(isUploadWithImage){
+          let formData = new FormData();
+          formData.append("uploadFile", mainImage);
+
+          let product_image = await productService.uploadMainImage(formData);
+          let data = {
+            "product_id" : $scope.productInfo.product_id,
+            product_name, product_price, product_content, product_subcontent, product_image
+          };
+
+          productService
+            .updateProduct(data)
+            .then((response) => {
+              console.log("업로드 성공", response);
+              $window.location.reload()
+          })
+
+        } else if (isUploadOnlyContent) {
+          let product_image = $scope.productInfo.product_image;
+          let data = {
+            "product_id" : $scope.productInfo.product_id,
+            product_name, product_price, product_content, product_subcontent, product_image
+          };
+          productService
+          .updateProduct(data)
+          .then((response) => {
+            console.log("업로드 성공", response)
+            $window.location.reload()
+          })
+
+        } else {
+          alert("내용을 입력해주세요");
+          return ;
+
+        }
+      }
+
+
+    };
+    $scope.removeProduct = () => {
+      productService
+        .deleteProduct($scope.productInfo.product_id)
+        .then((response) => {
+          alert("삭제되었습니다.")
+          $location.url("/admin/product")
+        })
 
     }
   });
