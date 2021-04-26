@@ -34,6 +34,12 @@ angular
       },
       postProducts : async function(data) {
         return $http.post(BASE_URL, data);
+      },
+      updateProduct : function(data) {
+        return $http.put(BASE_URL, data);
+      },
+      deleteProduct : function(product_id) {
+        return $http.put(BASE_URL + "/" + product_id);
       }
     }
 
