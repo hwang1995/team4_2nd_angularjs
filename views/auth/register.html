@@ -1,4 +1,12 @@
 
+<style>
+  div .error {
+    color: lightcoral;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+</style>
+
 <link rel="stylesheet" href="../../assets/css/layout/registerLayout.css">
 <div class="text-center registerContainer" >
   <main class="form-signup">
@@ -10,40 +18,64 @@
         <h6>이메일</h6>
     </div>
       <div class="form-floating mb-3" ng-show="!email">
-        <input type="email" class="form-control" id="emailInput" name="email" placeholder="name@example.com" ng-model="user.member_email" ng-required>
+        <input type="email" class="form-control" id="emailInput" name="email" placeholder="name@example.com" ng-model="user.member_email" ng-required="true"/>
         <label for="floatingInput">ex) yourname@gmail.com</label>
+        <div class="error" ng-show="joinForm.email.$invalid && joinForm.email.$dirty">
+          <span ng-show="joinForm.email.$error.required">필수 입력 사항입니다.</span>
+          <span ng-show="joinForm.email.$error.email">이메일 형식이 올바르지 않습니다.</span>
+        </div>
       </div>
-      <div id="errorUemail"></div>
       <div class="col-3 mb-1 register_info_text">
         <h6>비밀번호</h6>
     </div>
       <div class="form-floating mb-3" ng-show="!email">
-        <input type="password" class="form-control" id="passwordInput" placeholder="Password" ng-model="user.member_pw">
+        <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Password" 
+        ng-model="user.member_pw"
+        ng-required="true"
+        ng-pattern="/^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/"/>
         <label for="floatingPassword">영문, 숫자 조합 8 ~ 10자</label>
+        <div class="error" ng-show="joinForm.password.$invalid && joinForm.password.$dirty">
+          <span ng-show="joinForm.password.$error.required">비밀번호를 입력해주세요.</span>
+          <span ng-show="joinForm.password.$error.pattern">비밀번호 형식이 올바르지 않습니다.</span>
+        </div>
       </div>
-      <div id="errorUpassword"></div>
       <div class="col-2 mb-1 register_info_text">
         <h6>이름</h6>
     </div>
       <div class="form-floating mb-3" ng-show="!email">
-        <input type="text" class="form-control" id="nameInput" placeholder="name" ng-model="user.member_name">
+        <input type="text" name="name" class="form-control" id="nameInput" placeholder="name" 
+        ng-model="user.member_name"
+        ng-required="true"/>
         <label for="floatingInput">ex) 홍자바</label>
+        <div class="error" ng-show="joinForm.name.$invalid && joinForm.name.$dirty">
+          <span ng-show="joinForm.name.$error.required">필수 입력 사항입니다.</span>
+        </div>
       </div>
-      <div id="errorUname"></div>
       <div class="col-3 mb-1 register_info_text">
         <h6>전화번호</h6>
     </div>
       <div class="form-floating mb-3" ng-show="!email">
-        <input type="tel" class="form-control" id="telInput" placeholder="tel" ng-model="user.member_tel">
+        <input type="tel" name="tel" class="form-control" id="telInput" placeholder="tel" 
+        ng-model="user.member_tel"
+        ng-required="true"
+        ng-pattern="/^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/"/>
         <label for="floatingInput">ex) 010-xxxx-xxxx</label>
+        <div class="error" ng-show="joinForm.tel.$invalid && joinForm.tel.$dirty">
+          <span ng-show="joinForm.tel.$error.required">필수 입력 사항입니다.</span>
+          <span ng-show="joinForm.tel.$error.pattern">전화번호 형식이 올바르지 않습니다.</span>
+        </div>
       </div>
-      <div id="errorUtel"></div>
       <div class="col-2 mb-1 register_info_text">
         <h6>주소</h6>
     </div>
       <div class="form-floating mb-3" ng-show="!email">
-        <input type="text" class="form-control" id="adressInput" placeholder="address" ng-model="user.member_address">
+        <input type="text" name="address" class="form-control" id="adressInput" placeholder="address" 
+        ng-model="user.member_address"/
+        ng-required="true">
         <label for="floatingInput">ex) 서울시 </label>
+        <div class="error" ng-show="joinForm.address.$invalid && joinForm.address.$dirty">
+          <span ng-show="joinForm.address.$error.required">필수 입력 사항입니다.</span>
+        </div>
       </div>
       <div>
         <h5 class="eng_h2 m-2">
