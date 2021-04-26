@@ -21,16 +21,18 @@ angular
       getCategoryList : function () {
         return $http.get(BASE_URL + "/categories");
       },
-      uploadMainImage : function (formData) {
-        return $http.post(`${BASE_URL}/upload/main`, formData, {headers : {"Content-Type" : undefined}});
+      uploadMainImage : async function (formData) {
+        let uploadImage = await $http.post(`${BASE_URL}/upload/main`, formData, {headers : {"Content-Type" : undefined}});
+        return uploadImage.data.product_image;
       },
-      uploadImages : function (data) {
+      uploadImages : async function (data) {
         return $http.post(`${BASE_URL}/upload`, data);
       },
-      getSequence : function () {
-        return $http.get(`${BASE_URL}/sequence`);
+      getSequence : async function () {
+        let sequence = await $http.get(`${BASE_URL}/sequence`);
+        return sequence.data.product_id;
       },
-      postProducts : function(data) {
+      postProducts : async function(data) {
         return $http.post(BASE_URL, data);
       }
     }

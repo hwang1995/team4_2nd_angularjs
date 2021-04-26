@@ -1,131 +1,77 @@
-productService
-.uploadMainImage(formData)
-// 1단계 - 이미지 업로드 하기
-.then((response) => {
-  let product_image = response.data.product_image;
-  let promiseObj = {};
-  promiseObj.product_image = product_image;
-  console.log("1단계 - 이미지 업로드 성공", response);
-  console.log(promiseObj);
-  return $q.resolve(promiseObj);
-})
-// 2단계 - 상품을 추가하기 위해 product_id seq 가져오기
-.then((promiseObj) => {
-  productService.getSequence()
-    .then((response) => {
-      console.log("2단계 - 상품 ID 가져오기 성공", response);
-      console.log(promiseObj);
-      promiseObj.product_id = response.data.product_id;
-      return $q.resolve(promiseObj);
-    })
-  
-})
-// 3단계 - 가져온 seq로 상품 추가하기
-.then((promiseObj) => {
-  let sizes = item.sizes.split(",");
-  let colors = item.colors.split(",");
-  let sendData = {
-    "products" : {
-      "product_id" : promiseObj.product_id,
-      "product_name" : item.product_name,
-      "product_price" : item.product_price,
-      "product_content" : item.content.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
-      "product_subcontent" : item.subcontent.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
-      "product_image" : promiseObj.product_image,
-      "subcategory_id" : $scope.subcategory_id
-    }, sizes, colors
-  };
-  console.log(promiseObj.product_id, promiseObj.product_image);
-  console.log(sendData);
-  // productService
-  //   .postProducts(sendData)
-  //   .then((response) => {
-  //     console.log("3단계 - 상품 추가 성공", response);
-  //   })
+Promise
+              .all([uploadImage, getSequence])
+              .then((response) => {
+                // 받아온 상품 이미지, 상품 번호를 세팅
+                const product_image = response[0].data.product_image;
+                const product_id = response[1].data.product_id;
+                console.log("PROMISE STEP 1 ", product_id, product_image);
 
-  // return $q.resolve(promiseObj);
-});
-// // 4단계 - 추가한 상품으로 Carousel 이미지 업로드
-// .then((promiseObj) => {
-//   // FormData 추가하기
-//   let formData = new FormData();
-//   formData.append("uploadFiles", carouselImageEl[0]);
-//   formData.append("type", "carousel");
-//   formData.append("product_id", promiseObj.product_id);
+                // 상품을 보낼 데이터를 세팅
+                let sendData = {
+                  "products" : {
+                    product_id,
+                    "product_name" : item.product_name,
+                    "product_price" : item.product_price,
+                    "product_content" : item.content.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
+                    "product_subcontent" : item.subcontent.replace(ENTER_SYMBOL, INSERT_ENTER_SYMBOL),
+                    product_image,
+                    "subcategory_id" : $scope.subcategory_id
+                  },
+                  "sizes" : item.sizes.split(","),
+                  "colors" : item.colors.split(",")
+                };
 
-//   productService
-//     .uploadImages(formData)
-//     .then((response) => {
-//       console.log("4단계 - Carousel 이미지 업로드 성공", response);
-//     })
+                productService
+                  .postProducts(sendData)
+                  .then(async (response) => {
+                    for(let file of carouselImageEl){
+                      const base64Data = await toBase64(file);
+                      let data = { 
+                        "type" : "carousel",
+                        "filename" : getUUID() + ".jpg",
+                        "product_id" : product_id,
+                        "base64" : base64Data
+                      };
+                      await productService
+                        .uploadImages(data)
+                        .then((response) => {
+                          console.log(response);
+                        })
+                    }
+                  })
+                  .then(async (response) => {
+                    for(let file of detailImageEl){
+                      const base64Data = await toBase64(file);
+                      let data = {
+                        "type" : "detail",
+                        "filename" : getUUID() + ".jpg",
+                        "product_id" : product_id,
+                        "base64" : base64Data
+                      };
+                      await productService
+                        .uploadImages(data)
+                        .then((response) => {
+                          console.log(response);
+                        })
 
-//   return $q.resolve(promiseObj);
-// })
-// .then((promiseObj) => {
-//   let formData = new FormData();
-//   formData.append("uploadFiles", detailImageEl[0]);
-//   formData.append("type", "detail");
-//   formData.append("product_id", promiseObj.product_id);
+                    }
+                  })
+                  .then((response) => {
+                    alert("성공적으로 업로드 되었습니다. 상품 상세 페이지로 이동합니다.");
+                    $location.url("/admin/product/" + product_id);
+                  });
+              })
 
-//   productService
-//     .uploadImages(formData)
-//     .then((response) => {
-//       console.log("5단계 - Detail 이미지 업로드 성공", response);
-//     })
-// })
-// .then((promiseObj) => {
-//   alert("상품 추가에 성공했습니다. 상품 상세 페이지로 이동합니다.");
-//   $location.url(`/admin/product/${promiseObj.product_id}`);
-// })
-
-
-
-// image fileList를 가져다가 blob으로 만들고, 이것을 Spring으로 전달하기
-Array
-.from(carouselImageEl)
-.forEach(async (item) => {
-  const base64Data = await toBase64(item);
-  let data = {
-    "type" : "carousel",
-    "filename" : getUUID() + ".jpg",
-    "base64" : base64Data
-  };
-  productService
-    .uploadImages(data)
-    .then((response) => {
-      console.log(response);
-    });
-});
-
-
-
-List<ProductImgsDTO> result = new ArrayList<ProductImgsDTO>();
-		
-		
-		String filePath = System.getProperty("user.home") + "/images";
-		Arrays.asList(uploadFiles).stream().forEach(uploadFile -> {
-			ProductImgsDTO productImgInfo = new ProductImgsDTO();
-			String categoryFolder = "/" + type + "/";
-			String uuid= UUID.randomUUID().toString();
-			
-			try {
-				String[] fileFragments = uploadFile.getOriginalFilename().split("\\.");
-				String ext = fileFragments[fileFragments.length - 1];
-				String returnFile = categoryFolder + uuid + "." + ext;
-				File file = new File(filePath + categoryFolder + uuid + "." + ext);
-				uploadFile.transferTo(file);
-				
-				productImgInfo.setProduct_id(product_id);
-				productImgInfo.setProduct_img_type(uploadFile.getContentType());
-				productImgInfo.setProduct_img_name(returnFile);
-				productImgInfo.setProduct_img_category(type);
-				
-				
-				productImgsDAO.insertProductImg(productImgInfo);
-				logger.info(productImgInfo.toString());
-				result.add(productImgInfo);
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		});
+              // 서비스
+              uploadMainImage : function (formData) {
+                return $http.post(`${BASE_URL}/upload/main`, formData, {headers : {"Content-Type" : undefined}});
+              },
+              uploadImages : function (data) {
+                return $http.post(`${BASE_URL}/upload`, data);
+              },
+              getSequence : function () {
+                return $http.get(`${BASE_URL}/sequence`);
+              },
+              postProducts : function(data) {
+                return $http.post(BASE_URL, data);
+              }

@@ -3,9 +3,9 @@
   <ng-include src="'views/dashboard/sider.html'"></ng-include>
 
   <section class="p-3 w-100">
-    <!-- 여기에 내용을 입력하세요. -->
     <h1 class="fw-9 mt-3">상품 추가</h1>
-    <hr class="divider mb-3" />
+    <h6 class="fw-9 mt-3 alert alert-primary">주의 사항! 상품 추가 후 사이즈, 색상, 캐러셀 이미지, 디테일 이미지의 변경은 불가하니 작성시 유의바랍니다.</h6>
+
     <!-- Jumbotron -->
     <div class="p-3 mb-2 bg-light rounded-3">
       <div class="container-fluid py-2">
@@ -149,26 +149,6 @@
           value="추가"
           ng-click="addItem(item)"
         />
-
-        <input
-        type="submit"
-        class="btn btn-primary mt-3"
-        value="테스트 추가"
-        ng-click="testUpload()"
-      />
-
-      <input
-      type="submit"
-      class="btn btn-primary mt-3"
-      value="데이터 넘겨보기"
-      ng-click="testMember(item)"
-    />
-    <input
-    type="submit"
-    class="btn btn-primary mt-3"
-    value="시퀀스 가져오기"
-    ng-click="testSeq()"
-  />
        
       </div>
     </div>
