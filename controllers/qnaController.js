@@ -24,8 +24,7 @@ angular
     $scope.setNull = () => {
       $scope.search = {email:"", category:"", answer:""};
       $scope.search_finished = false;
-      $scope.getList(1);
-    }
+    };
 
     $scope.search = {email:"", category:"", answer:""};
 
