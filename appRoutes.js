@@ -3,7 +3,7 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when("/", {templateUrl : "views/auth/login.html"})
-      .when("/admin", {templateUrl : "views/dashboard/index.html"})
+      .when("/admin", {templateUrl : "views/dashboard/index.html", controller : "dashController"})
       .when("/admin/product", {templateUrl : "views/products/product.html", controller : "productController"})
       .when("/admin/product/add", {templateUrl : "views/products/add.html", controller : "productController"})
       .when("/admin/product/modify/", {templateUrl : "views/products/modify.html", controller : "productController"})

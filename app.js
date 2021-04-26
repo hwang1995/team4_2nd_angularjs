@@ -1,5 +1,23 @@
 angular
-  .module("app", ["ngRoute"])
+  .module("app", ["ngRoute", "chart.js"])
+  .config(['ChartJsProvider', function (ChartJsProvider) {
+    ChartJsProvider.setOptions({
+      chartColors : ['#1c7ed6', '#FF8A80'],
+      responsive : true
+    });
+
+    ChartJsProvider.setOptions('bar', {
+      showLines : true,
+
+    });
+
+   
+
+
+
+
+
+  }])
   .run(function($rootScope, $http) {
     // sessionStorage에 email, authToken이 있는지 확인
     $rootScope.email = sessionStorage.getItem("email");
@@ -25,7 +43,7 @@ angular
       return value.replace(/^\s+|\s+$/g, '')
     }
   })
-  .controller("mainController", function($scope, $location, $route, authService, $window, $rootScope, $location) {
+  .controller("mainController", function($scope, $location, $route, authService, $window, $rootScope, $location, $timeout) {
     // 로그인 처리
     $scope.login = (user) => {
       authService
@@ -123,4 +141,6 @@ angular
       sessionStorage.removeItem("email");
       sessionStorage.removeItem("authToken");
     };
-    });
+
+
+  });

@@ -59,23 +59,12 @@
         <li class="mb-1">
           <h6 class="fw-7 engFont">Welcome. {{email}}</h6>
         </li>
-        <!-- <li class="mb-1">
-          <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-            Account
-          </button>
-          <div class="collapse" id="account-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark rounded">New...</a></li>
-              <li><a href="#" class="link-dark rounded">Profile</a></li>
-              <li><a href="#" class="link-dark rounded">Settings</a></li>
-              <li><a href="#" class="link-dark rounded">Sign out</a></li>
-            </ul>
-          </div>
-        </li> -->
       </ul>
-      <div class="d-flex" style="padding-top: 17rem;">
+      <div class="d-flex fixed-bottom m-3" >
         <a href="/" ng-click="logout()" style="bottom: 0px;">
-        <img class="fw-7 engFont" src="/assets/svg/door-closed.svg">Logout</img>
+        <img src="/assets/svg/door-closed.svg" ng-click="logout()"> 
+        <span class="fw-7 engFont">&nbsp;Logout</span>
+        </img>
       </a>
     </div>
     </div>
