@@ -1,14 +1,14 @@
 angular
   .module("app")
-  .controller("dashController", function ($scope, $rootScope, dashService, $timeout) {
+  .controller("dashController", function ($scope, dashService) {
+    //로딩이 아직 안되었을 때 spinner를 보여주기 위한 scope
     $scope.isLoaded = false;
 
+    //routeChangeSuccess되었을 때, 필요한 값을 가져와서 세팅해줌
     $scope.$on("$routeChangeSuccess", function () {
-      console.log($scope.isLoaded);
       dashService
         .getDashboardInfo()
         .then((response) => {
-          console.log("ROUTE", response.data);
           $scope.totalMembers = response.data.totalMembers;
           $scope.totalQnaFinished = response.data.totalQnaFinished;
           $scope.totalQnaWaiting = response.data.totalQnaWaiting;
@@ -18,7 +18,7 @@ angular
           $scope.chart = response.data.chart;
           $scope.labels = [];
           $scope.data = [];
-          $scope.tempData = []
+          $scope.tempData = [];
           $scope.series = ["총매출액"];
 
           for(let chartInfo of $scope.chart){
@@ -27,12 +27,6 @@ angular
           }
           $scope.data = [$scope.tempData];
           $scope.isLoaded = true;
-
         })
-
-    });
-
-
-
-   
+    });   
   })
