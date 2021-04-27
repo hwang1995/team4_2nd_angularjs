@@ -154,5 +154,9 @@ angular
       sessionStorage.removeItem("authToken");
     };
 
+    $scope.goPage = (url) => {
+      $location.url(url);
+    }
+
 
   });
