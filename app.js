@@ -40,7 +40,7 @@ angular
     }
   })
   .controller("mainController", function($scope, $location, $route, authService, $window, $rootScope, $location, $timeout) {
-
+    //로그인 되어 있지 않을 때 접속 경로 제한
     $scope.$on("$routeChangeSuccess", function () {
       if($location.url() === "" || $location.url() === "/" || $location.url() === "/register") {
         console.log("정상적인 경로");
@@ -51,10 +51,7 @@ angular
           $location.url("/");
         }
       }
-  
     })
-
-
 
     // 로그인 처리
     $scope.login = (user) => {
@@ -75,16 +72,22 @@ angular
           console.log(response);
         });
     };
+
+    //사이드바의 메뉴를 클릭할 경우 reload
     $scope.reloadable = (path) => {
       if($location.url().includes(path)){
         $route.reload();
       }
     };
+
+    //회원가입 폼으로 이동
     $scope.registerForm = () => {
       $location.url("/register");
     };
-    $scope.register = (user) => {
 
+    //회원가입
+    $scope.register = (user) => {
+      //유효성 검사
       const emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
       const telRegExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
       const passwordRegExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/; //  8 ~ 10자 영문, 숫자 조합
@@ -132,6 +135,8 @@ angular
         alert("약관에 동의해주세요.");
         return;
       }
+
+      //user객체의 이메일이 존재하면 alert, 존재하지 않으면 register
       authService
       .existed_email(user)
       .then((response) => {
@@ -147,12 +152,12 @@ angular
         }
       });
     };
+
+    //로그아웃 rootScope에 email, authToken 공백으로, 세션에도 email, authToken 삭제
     $scope.logout = () => {
       $rootScope.email = "";
       $rootScope.authToken = "";
       sessionStorage.removeItem("email");
       sessionStorage.removeItem("authToken");
     };
-
-
   });
