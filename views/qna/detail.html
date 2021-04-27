@@ -39,11 +39,21 @@
         <textarea class="form-control" ng-value="qna.qna_answer" style="height: 150px;" readonly></textarea>
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-secondary btn-sm mx-2" ng-click="getList(pager.pageNo)" ng-show="!search_finished" style="width: 150px;">목록</button>
-        <button class="btn btn-secondary btn-sm mx-2" ng-click="getList(pager.pageNo, search)" ng-show="search_finished" style="width: 150px;">목록</button>
-        <button class="btn btn-secondary btn-sm mx-2" ng-click="updateQnaForm()" style="width: 150px;" ng-show="qna.qna_answer != '답변중'">재답변</button>
-        <button class="btn btn-secondary btn-sm mx-2" ng-click="updateQnaForm()" style="width: 150px;" ng-show="qna.qna_answer == '답변중'">답변</button>
-        <button class="btn btn-secondary btn-sm mx-2" ng-click="delete_check(qna.qna_id)" style="width: 150px;">삭제</button>  
+        <button class="btn btn-secondary btn-sm mx-2" ng-click="getList(pager.pageNo)" ng-show="!search_finished" style="width: 150px;">
+          <h5 class="fw-7">목록</h5> 
+        </button>
+        <button class="btn btn-secondary btn-sm mx-2" ng-click="getList(pager.pageNo, search)" ng-show="search_finished" style="width: 150px;">
+          <h5 class="fw-7">목록</h5>
+        </button>
+        <button class="btn btn-secondary btn-sm mx-2" ng-click="updateQnaForm()" style="width: 150px;" ng-show="qna.qna_answer != '답변중'">
+          <h5 class="fw-7">재답변</h5>
+        </button>
+        <button class="btn btn-secondary btn-sm mx-2" ng-click="updateQnaForm()" style="width: 150px;" ng-show="qna.qna_answer == '답변중'">
+          <h5 class="fw-7">답변</h5>
+        </button>
+        <button class="btn btn-secondary btn-sm mx-2" ng-click="delete_check(qna.qna_id)" style="width: 150px;">
+          <h5 class="fw-7">삭제</h5>
+        </button>  
       </div>
     </div>
   </section>

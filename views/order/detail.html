@@ -56,25 +56,25 @@
         <div class="col-5">
           <h3 class="fw-5">배송 정보</h3>
         </div>
-        <div class="col-1">
+        <div class="col-1" style="text-align: right;">
           <button class="btn btn-success btn-sm" style="width: max-content; height: max-content;" ng-click="modifyForm()">수정</button>
         </div>
       </div>
       <div class="bold_divider  ps-4 pt-1 pb-1 mt-2">
         <div class="row">
-          <div class="col-2">수취인</div>
+          <div class="col-2 fw-7">수취인</div>
           <div class="col-4">{{order.recipient_name}}</div>
         </div>
         <div class="row">
-          <div class="col-2">연락처</div>
+          <div class="col-2 fw-7">연락처</div>
           <div class="col-4">{{order.recipient_tel}}</div>
         </div>
         <div class="row">
-          <div class="col-2">주소</div>
+          <div class="col-2 fw-7">주소</div>
           <div class="col-4">{{order.recipient_address}}</div>
         </div>
         <div class="row">
-          <div class="col-2">배송상태</div>
+          <div class="col-2 fw-7">배송상태</div>
           <div class="col-4" ng-if="order.order_delivery_status == 'DELIVERY_COMPLETED'">배송완료</div>
           <div class="col-4" ng-if="order.order_delivery_status == 'DELIVERY_PENDING'">배송준비중</div>
         </div>
@@ -82,7 +82,10 @@
     </div>
 
     <div class="d-flex justify-content-center mt-3">
-      <button class="btn btn-primary btn-sm" style="width: 100px;" ng-click="getList(1)">목록</button>
+      <button class="btn btn-primary" style="width: 100px;" ng-click="getList(1)">
+       <h5 class="fw-7">목록</h5>
+        
+      </button>
     </div>
     
 </div>
