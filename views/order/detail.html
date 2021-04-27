@@ -4,20 +4,21 @@
     <div>
       <h3 class="fw-5 mt-2">주문 정보</h3>
 
-      <div class="bold_divider d-flex ps-4 pt-1 pb-1 mt-2" ng-value="order">
+      <div class="bold_divider ps-4 pt-1 pb-1 mt-2" ng-value="order">
         <div class="row">
-          <div>- 주문번호 : {{order.order_id}}</div>
-          <div>- 주문자 : {{member.member_name}}</div>
-          <div>- 이메일 : {{member.member_email}}</div>
+          <div class="col-3">- 주문번호 : {{order.order_id}}</div>
+          <div class="col-9">- 이메일 : {{member.member_email}}</div>
         </div>
-        <div>
-          <div>- 주문날짜 : {{order.order_date | date:"yyyy.MM.dd"}}</div>
-          <div ng-if="order.order_payment_status == 'PAYMENT_FINISHED'">- 결제상태 : 결제완료</div>
-          <div ng-if="order.order_payment_status == 'PAYMENT_PENDING'">- 결제상태 : 결제보류</div>
-          <div ng-if="order.order_delivery_status == 'DELIVERY_COMPLETED'">- 배송상태 : 배송완료</div>
-          <div ng-if="order.order_delivery_status == 'DELIVERY_PENDING'">- 배송상태 : 배송준비중</div>
+        <div class="row">
+          <div class="col-3">- 주문자 : {{member.member_name}}</div>
+          <div class="col-9" ng-if="order.order_payment_status == 'PAYMENT_FINISHED'">- 결제상태 : 결제완료</div>
+          <div class="col-9" ng-if="order.order_payment_status == 'PAYMENT_PENDING'">- 결제상태 : 결제보류</div>
         </div>
-          
+        <div class="row">
+          <div class="col-3">- 주문날짜 : {{order.order_date | date:"yyyy.MM.dd"}}</div>
+          <div class="col-9" ng-if="order.order_delivery_status == 'DELIVERY_COMPLETED'">- 배송상태 : 배송완료</div>
+          <div class="col-9" ng-if="order.order_delivery_status == 'DELIVERY_PENDING'">- 배송상태 : 배송준비중</div>
+        </div>
       </div>
     </div>
 
