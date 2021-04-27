@@ -20,7 +20,7 @@
       <div class="form-floating mb-3" ng-show="!email">
         <input type="email" class="form-control" id="emailInput" name="email" placeholder="name@example.com" ng-model="user.member_email" ng-required="true"/>
         <label for="floatingInput">ex) yourname@gmail.com</label>
-        <div class="error" ng-show="joinForm.email.$invalid && joinForm.email.$dirty">
+        <div class="error mt-2" ng-show="joinForm.email.$invalid && joinForm.email.$dirty">
           <span ng-show="joinForm.email.$error.required">필수 입력 사항입니다.</span>
           <span ng-show="joinForm.email.$error.email">이메일 형식이 올바르지 않습니다.</span>
         </div>
@@ -47,7 +47,7 @@
         ng-model="user.member_name"
         ng-required="true"/>
         <label for="floatingInput">ex) 홍자바</label>
-        <div class="error" ng-show="joinForm.name.$invalid && joinForm.name.$dirty">
+        <div class="error mt-2" ng-show="joinForm.name.$invalid && joinForm.name.$dirty">
           <span ng-show="joinForm.name.$error.required">필수 입력 사항입니다.</span>
         </div>
       </div>
@@ -60,7 +60,7 @@
         ng-required="true"
         ng-pattern="/^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/"/>
         <label for="floatingInput">ex) 010-xxxx-xxxx</label>
-        <div class="error" ng-show="joinForm.tel.$invalid && joinForm.tel.$dirty">
+        <div class="error mt-2" ng-show="joinForm.tel.$invalid && joinForm.tel.$dirty">
           <span ng-show="joinForm.tel.$error.required">필수 입력 사항입니다.</span>
           <span ng-show="joinForm.tel.$error.pattern">전화번호 형식이 올바르지 않습니다.</span>
         </div>
@@ -73,7 +73,7 @@
         ng-model="user.member_address"/
         ng-required="true">
         <label for="floatingInput">ex) 서울시 </label>
-        <div class="error" ng-show="joinForm.address.$invalid && joinForm.address.$dirty">
+        <div class="error mt-2" ng-show="joinForm.address.$invalid && joinForm.address.$dirty">
           <span ng-show="joinForm.address.$error.required">필수 입력 사항입니다.</span>
         </div>
       </div>
